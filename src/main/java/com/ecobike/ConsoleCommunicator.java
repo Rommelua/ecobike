@@ -28,29 +28,34 @@ public class ConsoleCommunicator implements Communicator {
 
     @Override
     public int readInt() {
-        int result = -1;
-        while (result < 0) {
+        while (true) {
+            String entry = readString();
+            if (entry.isEmpty()) {
+                return 0;
+            }
+            int intValue;
             try {
-                result = Integer.parseInt(readString());
+                if ((intValue = Integer.parseInt(entry)) >= 0) {
+                    return intValue;
+                }
             } catch (NumberFormatException e) {
                 System.out.println("Repeat your entry (only positive number):");
             }
         }
-        return result;
     }
 
     @Override
     public boolean readBoolean() {
-        System.out.println("Type 1 for TRUE or 0 for FALSE");
+        System.out.println("Type 1 for TRUE or 2 for FALSE");
         while (true) {
             String entry = readString();
-            if (entry.equals("0")) {
-                return false;
-            }
             if (entry.equals("1")) {
                 return true;
             }
-            System.out.println("Wrong entry. Type 1 for TRUE or 0 for FALSE");
+            if (entry.equals("2")) {
+                return false;
+            }
+            System.out.println("Wrong entry. Type 1 for TRUE or 2 for FALSE");
         }
     }
 }

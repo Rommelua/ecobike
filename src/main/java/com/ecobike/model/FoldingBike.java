@@ -7,9 +7,9 @@ public class FoldingBike extends Bike {
     /**
      * Wheel size in inch.
      */
-    private int wheelSize;
+    private final int wheelSize;
 
-    private int numberOfGears;
+    private final int numberOfGears;
 
     public FoldingBike(String brand,
                        int wheelSize,
@@ -21,6 +21,7 @@ public class FoldingBike extends Bike {
         super(brand, weight, isLightsPresent, color, price);
         this.wheelSize = wheelSize;
         this.numberOfGears = numberOfGears;
+        setBikeType(BikeType.FOLDING_BIKE);
     }
 
     /**
@@ -31,7 +32,7 @@ public class FoldingBike extends Bike {
      */
     @Override
     public String toFileWriterString() {
-        return String.format("FOLDING BIKE %s; %d; %d; %d; %s; %s; %d",
+        return String.format("%s %s; %d; %d; %d; %s; %s; %d", getBikeType(),
                 getBrand(), wheelSize, numberOfGears, getWeight(),
                 isLightsPresent() ? "true" : "false", getColor(), getPrice());
     }
@@ -53,8 +54,8 @@ public class FoldingBike extends Bike {
 
     @Override
     public String toString() {
-        return String.format("FOLDING BIKE %s with %d gear(s) and%s head/tail light." +
-                        "\nPrice: %d euros.",
+        return String.format("%s %s with %d gear(s) and%s head/tail light." +
+                        "\nPrice: %d euros.", getBikeType(),
                 getBrand(), getNumberOfGears(), isLightsPresent() ? "" : " no", getPrice());
     }
 
@@ -62,15 +63,8 @@ public class FoldingBike extends Bike {
         return wheelSize;
     }
 
-    public void setWheelSize(int wheelSize) {
-        this.wheelSize = wheelSize;
-    }
-
     public int getNumberOfGears() {
         return numberOfGears;
     }
 
-    public void setNumberOfGears(int numberOfGears) {
-        this.numberOfGears = numberOfGears;
-    }
 }

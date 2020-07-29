@@ -7,12 +7,12 @@ public abstract class AbstractElectroBike extends Bike {
     /**
      * Max speed in km/h
      */
-    private int maxSpeed;
+    private final int maxSpeed;
 
     /**
      * Battery capacity in mAh
      */
-    private int batteryCapacity;
+    private final int batteryCapacity;
 
     public AbstractElectroBike(String brand,
                                int maxSpeed,
@@ -34,7 +34,7 @@ public abstract class AbstractElectroBike extends Bike {
      */
     @Override
     public String toFileWriterString() {
-        return String.format("%s; %d; %d; %s; %d; %s; %d",
+        return String.format("%s %s; %d; %d; %s; %d; %s; %d", getBikeType(),
                 getBrand(), maxSpeed, getWeight(), isLightsPresent() ? "true" : "false",
                 batteryCapacity, getColor(), getPrice());
     }
@@ -56,8 +56,8 @@ public abstract class AbstractElectroBike extends Bike {
 
     @Override
     public String toString() {
-        return String.format(" %s with %d mAh battery and%s head/tail light." +
-                        "\nPrice: %d euros.",
+        return String.format("%s %s with %d mAh battery and%s head/tail light." +
+                        "\nPrice: %d euros.", getBikeType(),
                 getBrand(), getBatteryCapacity(), isLightsPresent() ? "" : " no", getPrice());
     }
 
@@ -65,15 +65,8 @@ public abstract class AbstractElectroBike extends Bike {
         return maxSpeed;
     }
 
-    public void setMaxSpeed(int maxSpeed) {
-        this.maxSpeed = maxSpeed;
-    }
-
     public int getBatteryCapacity() {
         return batteryCapacity;
     }
 
-    public void setBatteryCapacity(int batteryCapacity) {
-        this.batteryCapacity = batteryCapacity;
-    }
 }

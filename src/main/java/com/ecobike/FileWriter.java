@@ -17,7 +17,7 @@ public class FileWriter {
     }
 
     public void writeData() {
-        List<String> dataToWrite = dataHolder.getBikes().stream()
+        List<String> dataToWrite = dataHolder.getUnmodifiableBikeList().stream()
                 .map(Bike::toFileWriterString)
                 .collect(Collectors.toList());
         try {

@@ -20,7 +20,7 @@ public class AddSpeedelecBikeCommand implements Command {
         String color = COMMUNICATOR.readString();
         COMMUNICATOR.writeMessage("Enter price:");
         int price = COMMUNICATOR.readInt();
-        DATA_HOLDER.getBikes().add(new SpeedelecBike(brand, maxSpeed, weight,
+        DATA_HOLDER.addBike(new SpeedelecBike(brand, maxSpeed, weight,
                 isLightsPresent, batteryCapacity, color, price));
         COMMUNICATOR.writeMessage("New SPEEDELEC BIKE added.");
     }

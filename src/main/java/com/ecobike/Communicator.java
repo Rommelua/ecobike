@@ -1,7 +1,5 @@
 package com.ecobike;
 
-import java.io.IOException;
-
 public interface Communicator {
     /**
      * Method writs message to user.
@@ -15,6 +13,7 @@ public interface Communicator {
 
     /**
      * Method reads integer from user.
+     * For empty entry returns 0.
      */
     int readInt();
     /**

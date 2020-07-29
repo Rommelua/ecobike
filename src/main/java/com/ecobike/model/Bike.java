@@ -3,14 +3,18 @@ package com.ecobike.model;
 import java.util.Objects;
 
 public abstract class Bike {
+    /**
+     * Type of the bike.
+     */
+    private BikeType bikeType;
 
-    private String brand;
+    private final String brand;
     /**
      * Bike's weight in grams
      */
-    private int weight;
-    private boolean isLightsPresent;
-    private String color;
+    private final int weight;
+    private final boolean isLightsPresent;
+    private final String color;
     /**
      * Price in EUR
      */
@@ -48,36 +52,28 @@ public abstract class Bike {
         return Objects.hash(brand, weight, isLightsPresent, color, price);
     }
 
-    public String getBrand() {
-        return brand;
+    public BikeType getBikeType() {
+        return bikeType;
     }
 
-    public void setBrand(String brand) {
-        this.brand = brand;
+    void setBikeType(BikeType bikeType) {
+        this.bikeType = bikeType;
+    }
+
+    public String getBrand() {
+        return brand;
     }
 
     public int getWeight() {
         return weight;
     }
 
-    public void setWeight(int weight) {
-        this.weight = weight;
-    }
-
     public boolean isLightsPresent() {
         return isLightsPresent;
     }
 
-    public void setLightsPresent(boolean lightsPresent) {
-        isLightsPresent = lightsPresent;
-    }
-
     public String getColor() {
         return color;
-    }
-
-    public void setColor(String color) {
-        this.color = color;
     }
 
     public int getPrice() {

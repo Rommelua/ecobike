@@ -20,7 +20,7 @@ public class AddEBikeCommand implements Command {
         String color = COMMUNICATOR.readString();
         COMMUNICATOR.writeMessage("Enter price:");
         int price = COMMUNICATOR.readInt();
-        DATA_HOLDER.getBikes().add(new EBike(brand, maxSpeed, weight,
+        DATA_HOLDER.addBike(new EBike(brand, maxSpeed, weight,
                 isLightsPresent, batteryCapacity, color, price));
         COMMUNICATOR.writeMessage("New E-BIKE BIKE added.");
     }

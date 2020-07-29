@@ -20,7 +20,7 @@ public class AddFoldingBikeCommand implements Command {
         String color = COMMUNICATOR.readString();
         COMMUNICATOR.writeMessage("Enter price:");
         int price = COMMUNICATOR.readInt();
-        DATA_HOLDER.getBikes().add(new FoldingBike(brand, wheelSize, numberOfGears,
+        DATA_HOLDER.addBike(new FoldingBike(brand, wheelSize, numberOfGears,
                 weight, isLightsPresent, color, price));
         COMMUNICATOR.writeMessage("New FOLDING BIKE added.");
     }

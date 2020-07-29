@@ -23,6 +23,19 @@ public class FoldingBike extends Bike {
         this.numberOfGears = numberOfGears;
     }
 
+    /**
+     * Method converts bike to specific String format
+     * for writing to file.
+     *
+     * @return String representation of the bike.
+     */
+    @Override
+    public String toFileWriterString() {
+        return String.format("FOLDING BIKE %s; %d; %d; %d; %s; %s; %d",
+                getBrand(), wheelSize, numberOfGears, getWeight(),
+                isLightsPresent() ? "true" : "false", getColor(), getPrice());
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

@@ -24,6 +24,13 @@ public abstract class Bike {
         this.price = price;
     }
 
+    /**
+     * Method converts bike to specific String format
+     * for writing to file.
+     * @return String representation of the bike.
+     */
+    public abstract String toFileWriterString();
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

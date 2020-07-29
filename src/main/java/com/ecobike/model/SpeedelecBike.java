@@ -13,6 +13,17 @@ public class SpeedelecBike extends AbstractElectroBike {
                 batteryCapacity, color, price);
     }
 
+    /**
+     * Method converts bike to specific String format
+     * for writing to file.
+     *
+     * @return String representation of the bike.
+     */
+    @Override
+    public String toFileWriterString() {
+        return "SPEEDELEC " + super.toFileWriterString();
+    }
+
     @Override
     public String toString() {
         return "SPEEDELEC" + super.toString();

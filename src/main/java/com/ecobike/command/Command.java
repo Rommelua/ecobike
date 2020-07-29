@@ -1,7 +1,12 @@
 package com.ecobike.command;
 
-import java.io.IOException;
+import com.ecobike.Communicator;
+import com.ecobike.DataHolder;
+import com.ecobike.EcoBikeApplication;
 
 public interface Command {
-    void execute() throws IOException;
+    Communicator COMMUNICATOR = EcoBikeApplication.COMMUNICATOR;
+    DataHolder DATA_HOLDER = DataHolder.getInstance();
+
+    void execute();
 }

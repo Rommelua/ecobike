@@ -17,4 +17,8 @@ public interface Communicator {
      * Method reads integer from user.
      */
     int readInt();
+    /**
+     * Method reads boolean from user.
+     */
+    boolean readBoolean();
 }

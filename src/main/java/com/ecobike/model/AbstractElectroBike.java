@@ -26,6 +26,19 @@ public abstract class AbstractElectroBike extends Bike {
         this.batteryCapacity = batteryCapacity;
     }
 
+    /**
+     * Method converts bike to specific String format
+     * for writing to file.
+     *
+     * @return String representation of the bike.
+     */
+    @Override
+    public String toFileWriterString() {
+        return String.format("%s; %d; %d; %s; %d; %s; %d",
+                getBrand(), maxSpeed, getWeight(), isLightsPresent() ? "true" : "false",
+                batteryCapacity, getColor(), getPrice());
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

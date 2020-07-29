@@ -33,9 +33,24 @@ public class ConsoleCommunicator implements Communicator {
             try {
                 result = Integer.parseInt(readString());
             } catch (NumberFormatException e) {
-                System.out.println("Repeat your entry (only number):");
+                System.out.println("Repeat your entry (only positive number):");
             }
         }
         return result;
+    }
+
+    @Override
+    public boolean readBoolean() {
+        System.out.println("Type 1 for TRUE or 0 for FALSE");
+        while (true) {
+            String entry = readString();
+            if (entry.equals("0")) {
+                return false;
+            }
+            if (entry.equals("1")) {
+                return true;
+            }
+            System.out.println("Wrong entry. Type 1 for TRUE or 0 for FALSE");
+        }
     }
 }

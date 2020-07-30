@@ -39,16 +39,18 @@ public class BikeFileReader {
             e.printStackTrace();
         }
         List<Bike> bikes = new ArrayList<>(lines.size());
+        List<String> wrongLinesInfo = new ArrayList<>();
         for (int i = 0; i < lines.size(); i++) {
             try {
                 bikes.add(parseBike(lines.get(i)));
             } catch (IllegalArgumentException e) {
-                communicator.writeMessage("Line No. " + (i + 1) + "has wrong format");
+                wrongLinesInfo.add("Line No. " + (i + 1) + " has wrong format");
             }
         }
         if (bikes.isEmpty()) {
             throw new IllegalFileFormatException();
         }
+        wrongLinesInfo.forEach(communicator::writeMessage);
         dataHolder.addBikes(bikes);
         communicator.writeMessage(bikes.size() + " bike items has been read from the file");
     }

@@ -2,6 +2,9 @@ package com.ecobike.model;
 
 import java.util.Objects;
 
+/**
+ * Common class describes electro bike.
+ */
 public abstract class AbstractElectroBike extends Bike {
 
     /**

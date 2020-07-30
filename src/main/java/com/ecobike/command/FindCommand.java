@@ -1,8 +1,14 @@
 package com.ecobike.command;
 
 import com.ecobike.SearchParameterContainer;
+import com.ecobike.model.Bike;
 import com.ecobike.model.BikeType;
 
+import java.util.List;
+
+/**
+ * Class responsible for executing Find operation
+ */
 public class FindCommand implements Command {
 
     @Override
@@ -87,7 +93,13 @@ public class FindCommand implements Command {
             paramContainer.setMaxBatteryCapacity(COMMUNICATOR.readInt());
         }
 
-        DATA_HOLDER.findBikesByParameter(paramContainer)
-                .forEach(bike -> COMMUNICATOR.writeMessage(bike.toString()));
+        List<Bike> bikes = DATA_HOLDER.findBikesByParameter(paramContainer);
+        if (bikes.isEmpty()) {
+            COMMUNICATOR.writeMessage("No bikes matches your query.");
+        } else {
+            COMMUNICATOR.writeMessage(bikes.size() + " bikes matches your query:");
+            COMMUNICATOR.writeMessage("");
+            COMMUNICATOR.printBikes(bikes);
+        }
     }
 }

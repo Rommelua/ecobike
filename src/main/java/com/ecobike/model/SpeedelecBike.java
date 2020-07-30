@@ -1,5 +1,8 @@
 package com.ecobike.model;
 
+/**
+ * Class describes Speedelec bike.
+ */
 public class SpeedelecBike extends AbstractElectroBike {
 
     public SpeedelecBike(String brand,

@@ -1,5 +1,8 @@
 package com.ecobike.model;
 
+/**
+ * Class describes EBike.
+ */
 public class EBike extends AbstractElectroBike {
 
     public EBike(String brand,

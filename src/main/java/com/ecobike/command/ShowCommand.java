@@ -1,10 +1,12 @@
 package com.ecobike.command;
 
+/**
+ * Class responsible for executing Show operation.
+ */
 public class ShowCommand implements Command {
 
     @Override
     public void execute() {
-        DATA_HOLDER.getUnmodifiableBikeList()
-                .forEach(bike -> COMMUNICATOR.writeMessage(bike.toString()));
+        COMMUNICATOR.printBikes(DATA_HOLDER.getUnmodifiableBikeList());
     }
 }

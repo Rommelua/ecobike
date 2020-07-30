@@ -2,6 +2,10 @@ package com.ecobike;
 
 import com.ecobike.model.BikeType;
 
+/**
+ * Class container for transferring searching parameters from user
+ * to findBikesByParameter() method in DataHolder.
+ */
 public class SearchParameterContainer {
     /**
      * Common bike parameters.

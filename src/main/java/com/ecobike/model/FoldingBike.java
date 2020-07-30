@@ -2,6 +2,9 @@ package com.ecobike.model;
 
 import java.util.Objects;
 
+/**
+ * Class describes Folding Bike.
+ */
 public class FoldingBike extends Bike {
 
     /**

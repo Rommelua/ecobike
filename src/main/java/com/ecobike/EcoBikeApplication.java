@@ -1,6 +1,6 @@
 package com.ecobike;
 
-import com.ecobike.exception.IllegalDataSourceException;
+import com.ecobike.exception.IllegalFileFormatException;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -45,7 +45,7 @@ public class EcoBikeApplication {
             try {
                 FILE_READER.loadData();
                 isFileParsed = true;
-            } catch (IllegalDataSourceException e) {
+            } catch (IllegalFileFormatException e) {
                 COMMUNICATOR.writeMessage("File has wrong format or empty");
                 COMMUNICATOR.writeMessage("");
             }

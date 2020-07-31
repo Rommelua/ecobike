@@ -1,10 +1,11 @@
 package com.ecobike;
 
-import com.ecobike.exception.IllegalFileFormatException;
+import com.ecobike.dao.BikeDAO;
+import com.ecobike.dao.FileBikeDAO;
+import com.ecobike.exception.IllegalDataSourceException;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 
 /**
  * Main class of the EcoBike application.
@@ -15,13 +16,9 @@ public class EcoBikeApplication {
      */
     public static final Communicator COMMUNICATOR = new ConsoleCommunicator();
     /**
-     * Object for loading data from file.
+     * Object for loading data from and writing data to file.
      */
-    private static final BikeFileReader FILE_READER = new BikeFileReader();
-    /**
-     * Object for writing data to file.
-     */
-    public static final BikeFileWriter FILE_WRITER = new BikeFileWriter();
+    public static final BikeDAO BIKE_DAO = FileBikeDAO.getInstance();
     /**
      * Variable for keeping information was data changed
      * since last writing to file or not.
@@ -35,17 +32,16 @@ public class EcoBikeApplication {
     public static void main(String[] args) {
         boolean isFileParsed = false;
         while (!isFileParsed) {
-            Path bikeDataFile;
+            String bikeDataFile;
             do {
                 COMMUNICATOR.writeMessage("Enter path to Bikes data file :");
-                bikeDataFile = Paths.get(COMMUNICATOR.readNotEmptyString());
-            } while (!Files.isRegularFile(bikeDataFile));
-            FILE_READER.setPath(bikeDataFile);
-            FILE_WRITER.setFile(bikeDataFile);
+                bikeDataFile = COMMUNICATOR.readNotEmptyString();
+            } while (!Files.isRegularFile(Path.of(bikeDataFile)));
+            BIKE_DAO.setSource(bikeDataFile);
             try {
-                FILE_READER.loadData();
+                BIKE_DAO.loadBikes();
                 isFileParsed = true;
-            } catch (IllegalFileFormatException e) {
+            } catch (IllegalDataSourceException e) {
                 COMMUNICATOR.writeMessage("File has wrong format or empty");
                 COMMUNICATOR.writeMessage("");
             }

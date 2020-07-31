@@ -1,11 +1,12 @@
 package com.ecobike.model;
 
+import java.util.Comparator;
 import java.util.Objects;
 
 /**
  * Common class describes abstract bike.
  */
-public abstract class Bike {
+public abstract class Bike implements Comparable<Bike> {
     /**
      * Type of the bike.
      */
@@ -34,6 +35,7 @@ public abstract class Bike {
     /**
      * Method converts bike to specific String format
      * for writing to file.
+     *
      * @return String representation of the bike.
      */
     public abstract String toFileWriterString();
@@ -53,6 +55,20 @@ public abstract class Bike {
     @Override
     public int hashCode() {
         return Objects.hash(brand, weight, isLightsPresent, color, price);
+    }
+
+    /**
+     * Method compares Bike objects by Type, then by Brand, then by price.
+     *
+     * @param o object to be compere with this.
+     * @return int value.
+     */
+    @Override
+    public int compareTo(Bike o) {
+        return Comparator.comparing(Bike::getBikeType, Comparator.comparing(BikeType::toString))
+                .thenComparing(Bike::getBrand)
+                .thenComparing(Bike::getPrice)
+                .compare(this, o);
     }
 
     public BikeType getBikeType() {

@@ -1,7 +1,6 @@
 package com.ecobike;
 
 import com.ecobike.model.Bike;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -12,7 +11,8 @@ import java.util.List;
  */
 public class ConsoleCommunicator implements Communicator {
 
-    private static final BufferedReader READER = new BufferedReader(new InputStreamReader(System.in));
+    private static final BufferedReader READER
+            = new BufferedReader(new InputStreamReader(System.in));
     /**
      * Number of bikes to be shown on one page.
      */
@@ -99,6 +99,7 @@ public class ConsoleCommunicator implements Communicator {
 
     /**
      * Method reads boolean from user.
+     *
      * @return boolean value from user.
      */
     @Override

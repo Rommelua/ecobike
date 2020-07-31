@@ -4,7 +4,6 @@ import com.ecobike.model.AbstractElectroBike;
 import com.ecobike.model.Bike;
 import com.ecobike.model.BikeType;
 import com.ecobike.model.FoldingBike;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -18,7 +17,7 @@ import java.util.stream.Stream;
  * loaded from data source.
  */
 public class DataHolder {
-    private final static DataHolder INSTANCE = new DataHolder();
+    private static final DataHolder INSTANCE = new DataHolder();
     /**
      * Bikes container.
      */
@@ -32,6 +31,7 @@ public class DataHolder {
 
     private DataHolder() {
     }
+
     public static DataHolder getInstance() {
         return INSTANCE;
     }
@@ -41,10 +41,11 @@ public class DataHolder {
      *
      * @param bikesToAdd collection with Bikes for adding.
      */
-    public synchronized void addBikes(Collection<Bike> bikesToAdd) {
+    public synchronized void init(Collection<Bike> bikesToAdd) {
+        bikes.clear();
         bikes.addAll(bikesToAdd);
         countDownLatch = new CountDownLatch(1);
-        new Thread(()->{
+        new Thread(() -> {
             sort();
             countDownLatch.countDown();
         }).start();
@@ -103,25 +104,33 @@ public class DataHolder {
                     .filter(bike -> bike.getBikeType() == parCont.getBikeType()
                             && bike.getBrand().equalsIgnoreCase(parCont.getBrand())
                             && bike.getWeight() >= parCont.getMinWeight()
-                            && (parCont.getMaxWeight() == 0 || bike.getWeight() <= parCont.getMaxWeight())
-                            && (!parCont.isLightsOptionEntered() || parCont.isLightsPresent() == bike.isLightsPresent())
-                            && (parCont.getColor().isEmpty() || parCont.getColor().equalsIgnoreCase(bike.getColor()))
+                            && (parCont.getMaxWeight() == 0
+                                || bike.getWeight() <= parCont.getMaxWeight())
+                            && (!parCont.isLightsOptionEntered()
+                                || parCont.isLightsPresent() == bike.isLightsPresent())
+                            && (parCont.getColor().isEmpty()
+                                || parCont.getColor().equalsIgnoreCase(bike.getColor()))
                             && bike.getPrice() >= parCont.getMinPrice()
-                            && (parCont.getMaxPrice() == 0 || bike.getPrice() <= parCont.getMaxPrice()));
+                            && (parCont.getMaxPrice() == 0
+                                || bike.getPrice() <= parCont.getMaxPrice()));
 
             if (parCont.getBikeType() == BikeType.FOLDING_BIKE) {
                 return bikeStream.map(bike -> (FoldingBike) bike)
                         .filter(bike -> bike.getWheelSize() >= parCont.getMinWheelSize()
-                                && (parCont.getMaxWheelSize() == 0 || bike.getWheelSize() <= parCont.getMaxWheelSize())
+                                && (parCont.getMaxWheelSize() == 0
+                                    || bike.getWheelSize() <= parCont.getMaxWheelSize())
                                 && bike.getNumberOfGears() >= parCont.getMinNumberOfGears()
-                                && (parCont.getMaxNumberOfGears() == 0 || bike.getNumberOfGears() <= parCont.getMaxNumberOfGears()))
+                                && (parCont.getMaxNumberOfGears() == 0
+                                    || bike.getNumberOfGears() <= parCont.getMaxNumberOfGears()))
                         .collect(Collectors.toList());
             }
             return bikeStream.map(bike -> (AbstractElectroBike) bike)
                     .filter(bike -> bike.getMaxSpeed() >= parCont.getMinMaxBikeSpeed()
-                            && (parCont.getMaxMaxBikeSpeed() == 0 || bike.getMaxSpeed() <= parCont.getMaxMaxBikeSpeed())
+                            && (parCont.getMaxMaxBikeSpeed() == 0
+                                || bike.getMaxSpeed() <= parCont.getMaxMaxBikeSpeed())
                             && bike.getBatteryCapacity() >= parCont.getMinBatteryCapacity()
-                            && (parCont.getMaxBatteryCapacity() == 0 || bike.getBatteryCapacity() <= parCont.getMaxBatteryCapacity()))
+                            && (parCont.getMaxBatteryCapacity() == 0
+                                || bike.getBatteryCapacity() <= parCont.getMaxBatteryCapacity()))
                     .collect(Collectors.toList());
         }
     }
@@ -129,7 +138,7 @@ public class DataHolder {
     /**
      * Method sorts Bikes in container.
      */
-    private void sort() {
+    private synchronized void sort() {
         Collections.sort(bikes);
     }
 }

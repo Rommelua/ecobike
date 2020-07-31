@@ -1,7 +1,12 @@
 package com.ecobike;
 
-import com.ecobike.command.*;
-
+import com.ecobike.command.AddEBikeCommand;
+import com.ecobike.command.AddFoldingBikeCommand;
+import com.ecobike.command.AddSpeedelecBikeCommand;
+import com.ecobike.command.Command;
+import com.ecobike.command.FindCommand;
+import com.ecobike.command.ShowCommand;
+import com.ecobike.command.WriteToFileCommand;
 import java.util.HashMap;
 import java.util.Map;
 

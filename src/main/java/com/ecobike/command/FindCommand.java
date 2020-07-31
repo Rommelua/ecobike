@@ -3,7 +3,6 @@ package com.ecobike.command;
 import com.ecobike.SearchParameterContainer;
 import com.ecobike.model.Bike;
 import com.ecobike.model.BikeType;
-
 import java.util.List;
 
 /**
@@ -35,7 +34,8 @@ public class FindCommand implements Command {
         }
         paramContainer.setBrand(brand);
 
-        COMMUNICATOR.writeMessage("You may choose next parameters (for skipping parameter press \"Enter\"):");
+        COMMUNICATOR.writeMessage("You may choose next parameters "
+                + "(for skipping parameter press \"Enter\"):");
         COMMUNICATOR.writeMessage("Enter min weight:");
         paramContainer.setMinWeight(COMMUNICATOR.readInt());
 
@@ -58,7 +58,8 @@ public class FindCommand implements Command {
                 paramContainer.setLightsOptionEntered(true);
                 break;
             }
-            System.out.println("Wrong entry. Type 1 for TRUE, 2 for FALSE or \"Enter\" for skipping");
+            COMMUNICATOR.writeMessage("Wrong entry. "
+                    + "Type 1 for TRUE, 2 for FALSE or \"Enter\" for skipping");
         }
 
         COMMUNICATOR.writeMessage("Enter color:");

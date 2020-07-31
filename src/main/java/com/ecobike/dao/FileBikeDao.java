@@ -1,9 +1,14 @@
 package com.ecobike.dao;
 
+import static com.ecobike.EcoBikeApplication.COMMUNICATOR;
+
 import com.ecobike.DataHolder;
 import com.ecobike.exception.IllegalDataSourceException;
-import com.ecobike.model.*;
-
+import com.ecobike.model.Bike;
+import com.ecobike.model.BikeType;
+import com.ecobike.model.EBike;
+import com.ecobike.model.FoldingBike;
+import com.ecobike.model.SpeedelecBike;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -14,29 +19,28 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static com.ecobike.EcoBikeApplication.COMMUNICATOR;
-
 /**
  * Singleton class responsible for reading data from file and parsing text to Bike objects,
  * and for writing to file Bike objects in text format.
  * Old data in file will be replaced by new one.
  */
-public class FileBikeDAO implements BikeDAO {
+public class FileBikeDao implements BikeDao {
 
-    private final static FileBikeDAO INSTANCE = new FileBikeDAO();
+    private static final FileBikeDao INSTANCE = new FileBikeDao();
 
-    private FileBikeDAO() {
-    }
+    private static final DataHolder DATA_HOLDER = DataHolder.getInstance();
 
-    public static FileBikeDAO getInstance() {
-        return INSTANCE;
-    }
     /**
      * Path to data file.
      */
     private Path file;
 
-    private static final DataHolder DATA_HOLDER = DataHolder.getInstance();
+    private FileBikeDao() {
+    }
+
+    public static FileBikeDao getInstance() {
+        return INSTANCE;
+    }
 
     /**
      * Method sets data file.
@@ -74,7 +78,7 @@ public class FileBikeDAO implements BikeDAO {
             throw new IllegalDataSourceException();
         }
         wrongLinesInfo.forEach(COMMUNICATOR::writeMessage);
-        DATA_HOLDER.addBikes(bikes);
+        DATA_HOLDER.init(bikes);
         COMMUNICATOR.writeMessage(bikes.size() + " bike items has been read from the file");
     }
 

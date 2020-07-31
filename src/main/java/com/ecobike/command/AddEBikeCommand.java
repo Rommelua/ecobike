@@ -25,14 +25,14 @@ public class AddEBikeCommand implements Command {
         COMMUNICATOR.writeMessage("Enter price:");
         int price = COMMUNICATOR.readPositiveInt();
 
-        String confirmMessage = String.format("add new %s with next parametrs:\n" +
-                        "brand: %s\n" +
-                        "maxSpeed: %d\n" +
-                        "weight: %d\n" +
-                        "lights presents: %s\n" +
-                        "battery capacity: %d\n" +
-                        "color: %s\n" +
-                        "price: %d\n",
+        String confirmMessage = String.format("add new %s with next parametrs:\n"
+                        + "brand: %s\n"
+                        + "maxSpeed: %d\n"
+                        + "weight: %d\n"
+                        + "lights presents: %s\n"
+                        + "battery capacity: %d\n"
+                        + "color: %s\n"
+                        + "price: %d\n",
                 BikeType.E_BIKE, brand, maxSpeed, weight,
                 isLightsPresent, batteryCapacity, color, price);
 

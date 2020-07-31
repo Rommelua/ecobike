@@ -1,9 +1,8 @@
 package com.ecobike;
 
-import com.ecobike.dao.BikeDAO;
-import com.ecobike.dao.FileBikeDAO;
+import com.ecobike.dao.BikeDao;
+import com.ecobike.dao.FileBikeDao;
 import com.ecobike.exception.IllegalDataSourceException;
-
 import java.nio.file.Files;
 import java.nio.file.Path;
 
@@ -18,7 +17,7 @@ public class EcoBikeApplication {
     /**
      * Object for loading data from and writing data to file.
      */
-    public static final BikeDAO BIKE_DAO = FileBikeDAO.getInstance();
+    public static final BikeDao BIKE_DAO = FileBikeDao.getInstance();
     /**
      * Variable for keeping information was data changed
      * since last writing to file or not.
@@ -47,11 +46,11 @@ public class EcoBikeApplication {
             }
         }
         isDataChanged = false;
-        while (true){
+        while (true) {
             Operation operation = askOperation();
             if (isDataChanged && operation == Operation.STOP_PROGRAM) {
-                COMMUNICATOR.writeMessage("You are going to exit without saving changed data.\n" +
-                        "Do you wont to save data?");
+                COMMUNICATOR.writeMessage("You are going to exit without saving changed data.\n"
+                        + "Do you wont to save data?");
                 if (COMMUNICATOR.readBoolean()) {
                     CommandExecutor.execute(Operation.WRITE_TO_FILE);
                 }

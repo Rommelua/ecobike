@@ -1,7 +1,7 @@
 package com.ecobike;
 
-import com.ecobike.dao.BikeDAO;
-import com.ecobike.dao.FileBikeDAO;
+import com.ecobike.dao.BikeDao;
+import com.ecobike.dao.FileBikeDao;
 import com.ecobike.exception.IllegalDataSourceException;
 import com.ecobike.model.Bike;
 import com.ecobike.model.BikeType;
@@ -18,17 +18,20 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class DataHolderTest {
-    private static final BikeDAO BIKE_DAO = FileBikeDAO.getInstance();
+    private static final BikeDao BIKE_DAO = FileBikeDao.getInstance();
     private static final DataHolder DATA_HOLDER = DataHolder.getInstance();
     private static final int START_EXPECTED_LIST_SIZE = 5;
-    private static final int FINISH_EXPECTED_LIST_SIZE = 7;
-    private static final Bike FIRST_BIKE_TO_ADD = new EBike("AAAA",50,
+    private static final int ADDBIKES_EXPECTED_LIST_SIZE = 2;
+    private static final int ADDBIKE_EXPECTED_LIST_SIZE = 7;
+    private static final Bike FIRST_BIKE_TO_ADD = new EBike("AAAA", 50,
             8400, false, 8600, "brown", 1609);
-    private static final Bike LAST_BIKE_TO_ADD = new SpeedelecBike("ZZZZ",50,
+    private static final Bike LAST_BIKE_TO_ADD = new SpeedelecBike("ZZZZ", 50,
             8400, false, 8600, "brown", 1609);
     private static final SearchParameterContainer PARAMETER_CONTAINER =
             new SearchParameterContainer();
+
     static {
+        BIKE_DAO.setSource("src/main/resources/test/fileWithFiveTrueBikes.txt");
         PARAMETER_CONTAINER.setBikeType(BikeType.FOLDING_BIKE);
         PARAMETER_CONTAINER.setBrand("bmW");
         PARAMETER_CONTAINER.setMinWheelSize(16);
@@ -43,7 +46,6 @@ public class DataHolderTest {
 
     @Before
     public void before() throws IllegalDataSourceException {
-        BIKE_DAO.setSource("src/main/resources/test/fileWithFiveTrueBikes.txt");
         BIKE_DAO.loadBikes();
     }
 
@@ -56,12 +58,12 @@ public class DataHolderTest {
     @Test
     public void addBikes() {
         List<Bike> bikesToAdd = Arrays.asList(FIRST_BIKE_TO_ADD, LAST_BIKE_TO_ADD);
-        DATA_HOLDER.addBikes(bikesToAdd);
+        DATA_HOLDER.init(bikesToAdd);
         List<Bike> loadedBikes = DATA_HOLDER.getUnmodifiableBikeList();
 
-        assertEquals(FINISH_EXPECTED_LIST_SIZE, loadedBikes.size());
+        assertEquals(ADDBIKES_EXPECTED_LIST_SIZE, loadedBikes.size());
         assertEquals(FIRST_BIKE_TO_ADD, loadedBikes.get(0));
-        assertEquals(LAST_BIKE_TO_ADD, loadedBikes.get(6));
+        assertEquals(LAST_BIKE_TO_ADD, loadedBikes.get(1));
     }
 
     @Test
@@ -70,7 +72,7 @@ public class DataHolderTest {
         DATA_HOLDER.addBike(LAST_BIKE_TO_ADD);
         List<Bike> loadedBikes = DATA_HOLDER.getUnmodifiableBikeList();
 
-        assertEquals(FINISH_EXPECTED_LIST_SIZE, loadedBikes.size());
+        assertEquals(ADDBIKE_EXPECTED_LIST_SIZE, loadedBikes.size());
         assertEquals(FIRST_BIKE_TO_ADD, loadedBikes.get(0));
         assertEquals(LAST_BIKE_TO_ADD, loadedBikes.get(6));
     }

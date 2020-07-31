@@ -44,12 +44,18 @@ public abstract class AbstractElectroBike extends Bike {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        if (!super.equals(o)) {
+            return false;
+        }
         AbstractElectroBike that = (AbstractElectroBike) o;
-        return maxSpeed == that.maxSpeed &&
-                batteryCapacity == that.batteryCapacity;
+        return maxSpeed == that.maxSpeed
+                && batteryCapacity == that.batteryCapacity;
     }
 
     @Override
@@ -59,8 +65,8 @@ public abstract class AbstractElectroBike extends Bike {
 
     @Override
     public String toString() {
-        return String.format("%s %s with %d mAh battery and%s head/tail light." +
-                        "\nPrice: %d euros.", getBikeType(),
+        return String.format("%s %s with %d mAh battery and%s head/tail light."
+                        + "\nPrice: %d euros.", getBikeType(),
                 getBrand(), getBatteryCapacity(), isLightsPresent() ? "" : " no", getPrice());
     }
 

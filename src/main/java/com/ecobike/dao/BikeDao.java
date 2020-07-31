@@ -6,7 +6,7 @@ import com.ecobike.exception.IllegalDataSourceException;
  * Interface should be implemented by class
  * responsible for access to data source with Bike objects.
  */
-public interface BikeDAO {
+public interface BikeDao {
 
     /**
      * Method sets data source.

@@ -25,14 +25,14 @@ public class AddFoldingBikeCommand implements Command {
         COMMUNICATOR.writeMessage("Enter price:");
         int price = COMMUNICATOR.readPositiveInt();
 
-        String confirmMessage = String.format("add new %s with next parametrs:\n" +
-                        "brand: %s\n" +
-                        "wheelSize: %d\n" +
-                        "numberOfGears: %d\n" +
-                        "weight: %d\n" +
-                        "lights presents: %s\n" +
-                        "color: %s\n" +
-                        "price: %d\n",
+        String confirmMessage = String.format("add new %s with next parametrs:\n"
+                        + "brand: %s\n"
+                        + "wheelSize: %d\n"
+                        + "numberOfGears: %d\n"
+                        + "weight: %d\n"
+                        + "lights presents: %s\n"
+                        + "color: %s\n"
+                        + "price: %d\n",
                 BikeType.FOLDING_BIKE, brand, wheelSize, numberOfGears, weight,
                 isLightsPresent, color, price);
 

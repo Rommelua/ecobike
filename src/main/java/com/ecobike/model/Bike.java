@@ -42,14 +42,18 @@ public abstract class Bike implements Comparable<Bike> {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Bike bike = (Bike) o;
-        return weight == bike.weight &&
-                isLightsPresent == bike.isLightsPresent &&
-                price == bike.price &&
-                Objects.equals(brand, bike.brand) &&
-                Objects.equals(color, bike.color);
+        return weight == bike.weight
+                && isLightsPresent == bike.isLightsPresent
+                && price == bike.price
+                && Objects.equals(brand, bike.brand)
+                && Objects.equals(color, bike.color);
     }
 
     @Override

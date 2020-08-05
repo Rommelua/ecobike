@@ -6,6 +6,7 @@ import com.ecobike.command.AddSpeedelecBikeCommand;
 import com.ecobike.command.Command;
 import com.ecobike.command.FindCommand;
 import com.ecobike.command.ShowCommand;
+import com.ecobike.command.StopProgramCommand;
 import com.ecobike.command.WriteToFileCommand;
 import java.util.HashMap;
 import java.util.Map;
@@ -26,6 +27,7 @@ public class CommandExecutor {
         allKnownCommandsMap.put(Operation.ADD_E_BIKE, new AddEBikeCommand());
         allKnownCommandsMap.put(Operation.FIND_ITEMS_BY_BRAND, new FindCommand());
         allKnownCommandsMap.put(Operation.WRITE_TO_FILE, new WriteToFileCommand());
+        allKnownCommandsMap.put(Operation.STOP_PROGRAM, new StopProgramCommand());
     }
 
     private CommandExecutor() {

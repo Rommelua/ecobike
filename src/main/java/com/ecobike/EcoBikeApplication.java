@@ -13,19 +13,15 @@ public class EcoBikeApplication {
     /**
      * Communicator for communication with user.
      */
-    public static final Communicator COMMUNICATOR = new ConsoleCommunicator();
+    public static final Communicator communicator = new ConsoleCommunicator();
     /**
      * Object for loading data from and writing data to file.
      */
-    public static final BikeDao BIKE_DAO = FileBikeDao.getInstance();
-    /**
-     * Variable for keeping information was data changed
-     * since last writing to file or not.
-     */
-    public static boolean isDataChanged = false;
+    public static final BikeDao bikeDao = FileBikeDao.getInstance();
 
     /**
      * Main method of the application.
+     *
      * @param args system arguments.
      */
     public static void main(String[] args) {
@@ -33,59 +29,46 @@ public class EcoBikeApplication {
         while (!isFileParsed) {
             String bikeDataFile;
             do {
-                COMMUNICATOR.writeMessage("Enter path to Bikes data file :");
-                bikeDataFile = COMMUNICATOR.readNotEmptyString();
+                communicator.writeMessage("Enter path to Bikes data file :");
+                bikeDataFile = communicator.readNotEmptyString();
             } while (!Files.isRegularFile(Path.of(bikeDataFile)));
-            BIKE_DAO.setSource(bikeDataFile);
+            bikeDao.setSource(bikeDataFile);
             try {
-                BIKE_DAO.loadBikes();
+                bikeDao.loadBikes();
                 isFileParsed = true;
             } catch (IllegalDataSourceException e) {
-                COMMUNICATOR.writeMessage("File has wrong format or empty");
-                COMMUNICATOR.writeMessage("");
+                communicator.writeMessage("File has wrong format or empty");
+                communicator.writeMessage("");
             }
         }
-        isDataChanged = false;
+
         while (true) {
             Operation operation = askOperation();
-            if (isDataChanged && operation == Operation.STOP_PROGRAM) {
-                COMMUNICATOR.writeMessage("You are going to exit without saving changed data.\n"
-                        + "Do you wont to save data?");
-                if (COMMUNICATOR.readBoolean()) {
-                    CommandExecutor.execute(Operation.WRITE_TO_FILE);
-                }
-            }
-            if (!isDataChanged && operation == Operation.WRITE_TO_FILE) {
-                COMMUNICATOR.writeMessage("Data has not been changed or already has saved");
-                continue;
-            }
-            if (operation == Operation.STOP_PROGRAM) {
-                if (COMMUNICATOR.confirmAction("EXIT from program")) {
-                    COMMUNICATOR.writeMessage("Good bay!");
-                    return;
-                }
-                continue;
-            }
             CommandExecutor.execute(operation);
-            isDataChanged = operation != Operation.WRITE_TO_FILE && isDataChanged;
+            if (operation == Operation.STOP_PROGRAM
+                    && communicator.confirmAction("EXIT from program")) {
+                communicator.writeMessage("Good bay!");
+                break;
+            }
         }
     }
 
     /**
      * Method asks user to choose operation.
+     *
      * @return chosen operation.
      */
     private static Operation askOperation() {
-        COMMUNICATOR.writeMessage("");
-        COMMUNICATOR.writeMessage("Please make your choice:");
-        COMMUNICATOR.writeMessage("\t 1 - Show the entire EcoBike catalog");
-        COMMUNICATOR.writeMessage("\t 2 – Add a new folding bike");
-        COMMUNICATOR.writeMessage("\t 3 – Add a new speedelec");
-        COMMUNICATOR.writeMessage("\t 4 – Add a new e-bike");
-        COMMUNICATOR.writeMessage("\t 5 – Find the first item of a particular brand");
-        COMMUNICATOR.writeMessage("\t 6 – Write to file");
-        COMMUNICATOR.writeMessage("\t 7 – Stop the program");
+        communicator.writeMessage("");
+        communicator.writeMessage("Please make your choice:");
+        communicator.writeMessage("\t 1 - Show the entire EcoBike catalog");
+        communicator.writeMessage("\t 2 – Add a new folding bike");
+        communicator.writeMessage("\t 3 – Add a new speedelec");
+        communicator.writeMessage("\t 4 – Add a new e-bike");
+        communicator.writeMessage("\t 5 – Find the first item of a particular brand");
+        communicator.writeMessage("\t 6 – Write to file");
+        communicator.writeMessage("\t 7 – Stop the program");
 
-        return Operation.values()[COMMUNICATOR.readInt() - 1];
+        return Operation.values()[communicator.readInt() - 1];
     }
 }

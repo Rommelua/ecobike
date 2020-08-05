@@ -1,6 +1,6 @@
 package com.ecobike.dao;
 
-import static com.ecobike.EcoBikeApplication.COMMUNICATOR;
+import static com.ecobike.EcoBikeApplication.communicator;
 
 import com.ecobike.DataHolder;
 import com.ecobike.exception.IllegalDataSourceException;
@@ -77,9 +77,9 @@ public class FileBikeDao implements BikeDao {
         if (bikes.isEmpty()) {
             throw new IllegalDataSourceException();
         }
-        wrongLinesInfo.forEach(COMMUNICATOR::writeMessage);
+        wrongLinesInfo.forEach(communicator::writeMessage);
         DATA_HOLDER.init(bikes);
-        COMMUNICATOR.writeMessage(bikes.size() + " bike items has been read from the file");
+        communicator.writeMessage(bikes.size() + " bike items has been read from the file");
     }
 
     /**

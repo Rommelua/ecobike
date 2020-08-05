@@ -29,6 +29,12 @@ public class DataHolder {
      */
     private CountDownLatch countDownLatch = new CountDownLatch(0);
 
+    /**
+     * Variable for keeping information was data changed
+     * since last writing to file or not.
+     */
+    private boolean isDataChanged;
+
     private DataHolder() {
     }
 
@@ -49,7 +55,7 @@ public class DataHolder {
             sort();
             countDownLatch.countDown();
         }).start();
-        EcoBikeApplication.isDataChanged = true;
+        isDataChanged = false;
     }
 
     /**
@@ -67,7 +73,7 @@ public class DataHolder {
             bikes.add(bike);
             sort();
         }
-        EcoBikeApplication.isDataChanged = true;
+        isDataChanged = true;
     }
 
     /**
@@ -90,10 +96,10 @@ public class DataHolder {
      * Method finds Bikes in container by parameters from
      * SearchParameterContainer object.
      *
-     * @param parCont object with parameters for searching.
+     * @param parameters object with parameters for searching.
      * @return list with properly Bikes objects.
      */
-    public List<Bike> findBikesByParameter(SearchParameterContainer parCont) {
+    public List<Bike> findBikesByParameter(SearchParameterContainer parameters) {
         try {
             countDownLatch.await();
         } catch (InterruptedException e) {
@@ -101,38 +107,59 @@ public class DataHolder {
         }
         synchronized (this) {
             Stream<Bike> bikeStream = bikes.parallelStream()
-                    .filter(bike -> bike.getBikeType() == parCont.getBikeType()
-                            && bike.getBrand().equalsIgnoreCase(parCont.getBrand())
-                            && bike.getWeight() >= parCont.getMinWeight()
-                            && (parCont.getMaxWeight() == 0
-                                || bike.getWeight() <= parCont.getMaxWeight())
-                            && (!parCont.isLightsOptionEntered()
-                                || parCont.isLightsPresent() == bike.isLightsPresent())
-                            && (parCont.getColor().isEmpty()
-                                || parCont.getColor().equalsIgnoreCase(bike.getColor()))
-                            && bike.getPrice() >= parCont.getMinPrice()
-                            && (parCont.getMaxPrice() == 0
-                                || bike.getPrice() <= parCont.getMaxPrice()));
+                    .filter(bike -> bike.getBikeType() == parameters.getBikeType()
+                            && bike.getBrand().equalsIgnoreCase(parameters.getBrand())
+                            && bike.getWeight() >= parameters.getMinWeight()
+                            && (parameters.getMaxWeight() == 0
+                                || bike.getWeight() <= parameters.getMaxWeight())
+                            && (!parameters.isLightsOptionEntered()
+                                || parameters.isLightsPresent() == bike.isLightsPresent())
+                            && (parameters.getColor().isEmpty()
+                                || parameters.getColor().equalsIgnoreCase(bike.getColor()))
+                            && bike.getPrice() >= parameters.getMinPrice()
+                            && (parameters.getMaxPrice() == 0
+                                || bike.getPrice() <= parameters.getMaxPrice()));
 
-            if (parCont.getBikeType() == BikeType.FOLDING_BIKE) {
+            if (parameters.getBikeType() == BikeType.FOLDING_BIKE) {
                 return bikeStream.map(bike -> (FoldingBike) bike)
-                        .filter(bike -> bike.getWheelSize() >= parCont.getMinWheelSize()
-                                && (parCont.getMaxWheelSize() == 0
-                                    || bike.getWheelSize() <= parCont.getMaxWheelSize())
-                                && bike.getNumberOfGears() >= parCont.getMinNumberOfGears()
-                                && (parCont.getMaxNumberOfGears() == 0
-                                    || bike.getNumberOfGears() <= parCont.getMaxNumberOfGears()))
+                        .filter(bike -> bike.getWheelSize() >= parameters.getMinWheelSize()
+                                && (parameters.getMaxWheelSize() == 0
+                                    || bike.getWheelSize() <= parameters.getMaxWheelSize())
+                                && bike.getNumberOfGears() >= parameters.getMinNumberOfGears()
+                                && (parameters.getMaxNumberOfGears() == 0
+                                    || bike.getNumberOfGears() <= parameters.getMaxNumberOfGears()))
                         .collect(Collectors.toList());
             }
             return bikeStream.map(bike -> (AbstractElectroBike) bike)
-                    .filter(bike -> bike.getMaxSpeed() >= parCont.getMinMaxBikeSpeed()
-                            && (parCont.getMaxMaxBikeSpeed() == 0
-                                || bike.getMaxSpeed() <= parCont.getMaxMaxBikeSpeed())
-                            && bike.getBatteryCapacity() >= parCont.getMinBatteryCapacity()
-                            && (parCont.getMaxBatteryCapacity() == 0
-                                || bike.getBatteryCapacity() <= parCont.getMaxBatteryCapacity()))
+                    .filter(bike -> bike.getMaxSpeed() >= parameters.getMinMaxBikeSpeed()
+                            && (parameters.getMaxMaxBikeSpeed() == 0
+                                || bike.getMaxSpeed() <= parameters.getMaxMaxBikeSpeed())
+                            && bike.getBatteryCapacity() >= parameters.getMinBatteryCapacity()
+                            && (parameters.getMaxBatteryCapacity() == 0
+                                || bike.getBatteryCapacity() <= parameters.getMaxBatteryCapacity()))
                     .collect(Collectors.toList());
         }
+    }
+
+    /**
+     * Method returns information was data changed
+     * since last saving or not.
+     *
+     * @return was data changed
+     * since last saving or not.
+     */
+    public boolean isDataChanged() {
+        return isDataChanged;
+    }
+
+    /**
+     * Method sets parameter showing was data changed
+     * since last saving or not.
+     *
+     * @param dataChanged boolean value.
+     */
+    public void setDataChanged(boolean dataChanged) {
+        isDataChanged = dataChanged;
     }
 
     /**

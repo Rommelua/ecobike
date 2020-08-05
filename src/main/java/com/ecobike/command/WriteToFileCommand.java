@@ -9,10 +9,16 @@ public class WriteToFileCommand implements Command {
 
     @Override
     public void execute() {
-        String confirmMessage = "write data to file";
-        if (COMMUNICATOR.confirmAction(confirmMessage)) {
-            EcoBikeApplication.BIKE_DAO.writeBikes();
-            COMMUNICATOR.writeMessage("Data has been written successfully.");
+        if (!DATA_HOLDER.isDataChanged()) {
+            COMMUNICATOR.writeMessage("Data has not been changed or already has saved");
+        } else {
+            String confirmMessage = "write data to file";
+            if (COMMUNICATOR.confirmAction(confirmMessage)) {
+                EcoBikeApplication.bikeDao.writeBikes();
+                DATA_HOLDER.setDataChanged(true);
+                COMMUNICATOR.writeMessage("Data has been written successfully.");
+            }
         }
+
     }
 }

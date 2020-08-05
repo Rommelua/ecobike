@@ -28,5 +28,5 @@ public interface BikeDao {
      * Method writes to data source Bike objects.
      * Old data must be replaced with new one.
      */
-    void writeBikes();
+    void saveBikes();
 }

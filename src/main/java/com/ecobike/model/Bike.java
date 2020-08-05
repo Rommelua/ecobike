@@ -40,6 +40,14 @@ public abstract class Bike implements Comparable<Bike> {
      */
     public abstract String toFileWriterString();
 
+    /**
+     * Method converts bike to specific String format
+     * for showing to user.
+     *
+     * @return String representation of the bike.
+     */
+    public abstract String toOutputString();
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {

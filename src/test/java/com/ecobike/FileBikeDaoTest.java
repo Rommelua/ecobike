@@ -40,7 +40,7 @@ public class FileBikeDaoTest {
         BIKE_DAO.loadBikes();
         DataHolder dataHolder = DataHolder.getInstance();
         dataHolder.addBike(LAST_BIKE);
-        BIKE_DAO.writeBikes();
+        BIKE_DAO.saveBikes();
         List<String> fileLines = Files.readAllLines(NEW_FILE);
         Assert.assertEquals(2, fileLines.size());
         Assert.assertEquals("FOLDING BIKE BMW; 20; 7; 14400; false; lemon; 1085", fileLines.get(0));

@@ -62,7 +62,7 @@ public class FoldingBike extends Bike {
     }
 
     @Override
-    public String toString() {
+    public String toOutputString() {
         return String.format("%s %s with %d gear(s) and%s head/tail light."
                         + "\nPrice: %d euros.", getBikeType(),
                 getBrand(), getNumberOfGears(), isLightsPresent() ? "" : " no", getPrice());

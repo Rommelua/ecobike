@@ -14,7 +14,7 @@ public class WriteToFileCommand implements Command {
         } else {
             String confirmMessage = "write data to file";
             if (COMMUNICATOR.confirmAction(confirmMessage)) {
-                EcoBikeApplication.bikeDao.writeBikes();
+                EcoBikeApplication.bikeDao.saveBikes();
                 DATA_HOLDER.setDataChanged(true);
                 COMMUNICATOR.writeMessage("Data has been written successfully.");
             }

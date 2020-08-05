@@ -17,13 +17,9 @@ public abstract class AbstractElectroBike extends Bike {
      */
     private final int batteryCapacity;
 
-    public AbstractElectroBike(String brand,
-                               int maxSpeed,
-                               int weight,
-                               boolean isLightsPresent,
-                               int batteryCapacity,
-                               String color,
-                               int price) {
+    public AbstractElectroBike(String brand, int maxSpeed, int weight,
+                               boolean isLightsPresent, int batteryCapacity,
+                               String color, int price) {
         super(brand, weight, isLightsPresent, color, price);
         this.maxSpeed = maxSpeed;
         this.batteryCapacity = batteryCapacity;
@@ -64,7 +60,7 @@ public abstract class AbstractElectroBike extends Bike {
     }
 
     @Override
-    public String toString() {
+    public String toOutputString() {
         return String.format("%s %s with %d mAh battery and%s head/tail light."
                         + "\nPrice: %d euros.", getBikeType(),
                 getBrand(), getBatteryCapacity(), isLightsPresent() ? "" : " no", getPrice());

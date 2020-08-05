@@ -87,7 +87,7 @@ public class FileBikeDao implements BikeDao {
      * Old data in file will be replaced with new one.
      */
     @Override
-    public void writeBikes() {
+    public void saveBikes() {
         List<String> dataToWrite = DATA_HOLDER.getUnmodifiableBikeList().stream()
                 .map(Bike::toFileWriterString)
                 .collect(Collectors.toList());

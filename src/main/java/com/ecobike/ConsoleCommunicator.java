@@ -126,7 +126,7 @@ public class ConsoleCommunicator implements Communicator {
     @Override
     public void printBikes(List<Bike> bikes) {
         for (int i = 0; i < bikes.size(); i++) {
-            writeMessage(i + 1 + ". " + bikes.get(i).toString());
+            writeMessage(i + 1 + ". " + bikes.get(i).toOutputString());
             if ((i + 1) % BIKES_ON_PAGE_QUANTITY == 0) {
                 writeMessage("");
                 do {

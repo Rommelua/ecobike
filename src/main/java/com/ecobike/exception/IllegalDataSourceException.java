@@ -5,4 +5,10 @@ package com.ecobike.exception;
  * has wrong data format and/or can not be parsed.
  */
 public class IllegalDataSourceException extends Exception {
+    public IllegalDataSourceException(Throwable cause) {
+        super(cause);
+    }
+
+    public IllegalDataSourceException() {
+    }
 }

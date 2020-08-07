@@ -16,7 +16,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 
-public class FileBikeDaoTest {
+public class FileBikeParserDaoTest {
     private static final int EXPECTED_LIST_SIZE = 5;
     private static final Bike LAST_BIKE = new SpeedelecBike("EcoRide", 50,
             8400, false, 8600, "brown", 1609);

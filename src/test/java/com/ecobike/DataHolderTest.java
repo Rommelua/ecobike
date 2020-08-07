@@ -11,6 +11,7 @@ import com.ecobike.model.SpeedelecBike;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
 
@@ -18,7 +19,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class DataHolderTest {
-    private static final BikeDao BIKE_DAO = FileBikeDao.getInstance();
+    private static final BikeDao BIKE_DAO
+            = new FileBikeDao(Path.of("src/main/resources/test/fileWithFiveTrueBikes.txt"));
     private static final DataHolder DATA_HOLDER = DataHolder.getInstance();
     private static final int START_EXPECTED_LIST_SIZE = 5;
     private static final int ADDBIKES_EXPECTED_LIST_SIZE = 2;
@@ -31,7 +33,6 @@ public class DataHolderTest {
             new SearchParameterContainer();
 
     static {
-        BIKE_DAO.setSource("src/main/resources/test/fileWithFiveTrueBikes.txt");
         PARAMETER_CONTAINER.setBikeType(BikeType.FOLDING_BIKE);
         PARAMETER_CONTAINER.setBrand("bmW");
         PARAMETER_CONTAINER.setMinWheelSize(16);

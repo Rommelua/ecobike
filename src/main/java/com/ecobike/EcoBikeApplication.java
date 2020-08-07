@@ -17,7 +17,7 @@ public class EcoBikeApplication {
     /**
      * Object for loading data from and writing data to file.
      */
-    public static final BikeDao bikeDao = FileBikeDao.getInstance();
+    public static BikeDao bikeDao;
 
     /**
      * Main method of the application.
@@ -25,30 +25,37 @@ public class EcoBikeApplication {
      * @param args system arguments.
      */
     public static void main(String[] args) {
+        initFileBikeDao();
+        while (true) {
+            try {
+                Operation operation = askOperation();
+                CommandExecutor.execute(operation);
+                if (operation == Operation.STOP_PROGRAM
+                        && communicator.confirmAction("EXIT from program")) {
+                    communicator.writeMessage("Good bay!");
+                    break;
+                }
+            } catch (Exception e) {
+                communicator.writeMessage("Error occurred. Repeat action.");
+            }
+        }
+    }
+
+    private static void initFileBikeDao() {
         boolean isFileParsed = false;
         while (!isFileParsed) {
-            String bikeDataFile;
+            Path bikeDataFile;
             do {
                 communicator.writeMessage("Enter path to Bikes data file :");
-                bikeDataFile = communicator.readNotEmptyString();
-            } while (!Files.isRegularFile(Path.of(bikeDataFile)));
-            bikeDao.setSource(bikeDataFile);
+                bikeDataFile = Path.of(communicator.readNotEmptyString());
+            } while (!Files.isRegularFile(bikeDataFile));
+            bikeDao = new FileBikeDao(bikeDataFile);
             try {
                 bikeDao.loadBikes();
                 isFileParsed = true;
             } catch (IllegalDataSourceException e) {
                 communicator.writeMessage("File has wrong format or empty");
                 communicator.writeMessage("");
-            }
-        }
-
-        while (true) {
-            Operation operation = askOperation();
-            CommandExecutor.execute(operation);
-            if (operation == Operation.STOP_PROGRAM
-                    && communicator.confirmAction("EXIT from program")) {
-                communicator.writeMessage("Good bay!");
-                break;
             }
         }
     }

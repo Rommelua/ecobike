@@ -9,21 +9,21 @@ import com.ecobike.model.FoldingBike;
 public class AddFoldingBikeCommand implements Command {
     @Override
     public void execute() {
-        COMMUNICATOR.writeMessage("You are adding new FOLDING BIKE");
-        COMMUNICATOR.writeMessage("Enter brand:");
-        String brand = COMMUNICATOR.readNotEmptyString();
-        COMMUNICATOR.writeMessage("Enter wheel size:");
-        int wheelSize = COMMUNICATOR.readPositiveInt();
-        COMMUNICATOR.writeMessage("Enter number of gears:");
-        int numberOfGears = COMMUNICATOR.readPositiveInt();
-        COMMUNICATOR.writeMessage("Enter weight:");
-        int weight = COMMUNICATOR.readPositiveInt();
-        COMMUNICATOR.writeMessage("Enter presence of lights:");
-        boolean isLightsPresent = COMMUNICATOR.readBoolean();
-        COMMUNICATOR.writeMessage("Enter color:");
-        String color = COMMUNICATOR.readNotEmptyString();
-        COMMUNICATOR.writeMessage("Enter price:");
-        int price = COMMUNICATOR.readPositiveInt();
+        communicator.writeMessage("You are adding new FOLDING BIKE");
+        communicator.writeMessage("Enter brand:");
+        String brand = communicator.readNotEmptyString();
+        communicator.writeMessage("Enter wheel size:");
+        int wheelSize = communicator.readPositiveInt();
+        communicator.writeMessage("Enter number of gears:");
+        int numberOfGears = communicator.readPositiveInt();
+        communicator.writeMessage("Enter weight:");
+        int weight = communicator.readPositiveInt();
+        communicator.writeMessage("Enter presence of lights:");
+        boolean isLightsPresent = communicator.readBoolean();
+        communicator.writeMessage("Enter color:");
+        String color = communicator.readNotEmptyString();
+        communicator.writeMessage("Enter price:");
+        int price = communicator.readPositiveInt();
 
         String confirmMessage = String.format("add new %s with next parametrs:\n"
                         + "brand: %s\n"
@@ -36,10 +36,10 @@ public class AddFoldingBikeCommand implements Command {
                 BikeType.FOLDING_BIKE, brand, wheelSize, numberOfGears, weight,
                 isLightsPresent, color, price);
 
-        if (COMMUNICATOR.confirmAction(confirmMessage)) {
-            DATA_HOLDER.addBike(new FoldingBike(brand, wheelSize, numberOfGears,
+        if (communicator.confirmAction(confirmMessage)) {
+            dataHolder.addBike(new FoldingBike(brand, wheelSize, numberOfGears,
                     weight, isLightsPresent, color, price));
-            COMMUNICATOR.writeMessage("New FOLDING BIKE added.");
+            communicator.writeMessage("New FOLDING BIKE added.");
         }
     }
 }

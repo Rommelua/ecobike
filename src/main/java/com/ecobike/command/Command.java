@@ -9,8 +9,8 @@ import com.ecobike.EcoBikeApplication;
  * operation specified by user.
  */
 public interface Command {
-    Communicator COMMUNICATOR = EcoBikeApplication.communicator;
-    DataHolder DATA_HOLDER = DataHolder.getInstance();
+    Communicator communicator = EcoBikeApplication.communicator;
+    DataHolder dataHolder = DataHolder.getInstance();
 
     void execute();
 }

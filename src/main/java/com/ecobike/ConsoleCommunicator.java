@@ -11,7 +11,7 @@ import java.util.List;
  */
 public class ConsoleCommunicator implements Communicator {
 
-    private static final BufferedReader READER
+    private static final BufferedReader reader
             = new BufferedReader(new InputStreamReader(System.in));
     /**
      * Number of bikes to be shown on one page.
@@ -36,7 +36,7 @@ public class ConsoleCommunicator implements Communicator {
         String entry = null;
         while (entry == null) {
             try {
-                entry = READER.readLine();
+                entry = reader.readLine();
             } catch (IOException e) {
                 writeMessage("Repeat your entry:");
             }

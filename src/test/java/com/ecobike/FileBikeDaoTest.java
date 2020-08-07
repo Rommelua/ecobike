@@ -17,11 +17,11 @@ import java.nio.file.Path;
 import java.util.List;
 
 public class FileBikeDaoTest {
-    private static final BikeDao BIKE_DAO = FileBikeDao.getInstance();
     private static final int EXPECTED_LIST_SIZE = 5;
     private static final Bike LAST_BIKE = new SpeedelecBike("EcoRide", 50,
             8400, false, 8600, "brown", 1609);
     private static final Path NEW_FILE = Path.of("src/main/resources/test/newFile.txt");
+    private BikeDao bikeDao;
 
     @Rule
     public ExpectedException expectedEx = ExpectedException.none();
@@ -36,11 +36,11 @@ public class FileBikeDaoTest {
         Files.deleteIfExists(NEW_FILE);
         Files.createFile(NEW_FILE);
         Files.writeString(NEW_FILE, "FOLDING BIKE BMW; 20; 7; 14400; false; lemon; 1085");
-        BIKE_DAO.setSource("src/main/resources/test/newFile.txt");
-        BIKE_DAO.loadBikes();
+        bikeDao = new FileBikeDao(Path.of("src/main/resources/test/newFile.txt"));
+        bikeDao.loadBikes();
         DataHolder dataHolder = DataHolder.getInstance();
         dataHolder.addBike(LAST_BIKE);
-        BIKE_DAO.saveBikes();
+        bikeDao.saveBikes();
         List<String> fileLines = Files.readAllLines(NEW_FILE);
         Assert.assertEquals(2, fileLines.size());
         Assert.assertEquals("FOLDING BIKE BMW; 20; 7; 14400; false; lemon; 1085", fileLines.get(0));
@@ -49,8 +49,8 @@ public class FileBikeDaoTest {
 
     @Test
     public void loadBikesTest() throws IllegalDataSourceException {
-        BIKE_DAO.setSource("src/main/resources/test/fileWithFiveTrueBikes.txt");
-        BIKE_DAO.loadBikes();
+        bikeDao = new FileBikeDao(Path.of("src/main/resources/test/fileWithFiveTrueBikes.txt"));
+        bikeDao.loadBikes();
         DataHolder dataHolder = DataHolder.getInstance();
         List<Bike> loadedBikes = dataHolder.getUnmodifiableBikeList();
 
@@ -58,7 +58,7 @@ public class FileBikeDaoTest {
         Assert.assertEquals(loadedBikes.size() - 1, loadedBikes.indexOf(LAST_BIKE));
 
         expectedEx.expect(IllegalDataSourceException.class);
-        BIKE_DAO.setSource("src/main/resources/test/wrongBikeFormat.txt");
-        BIKE_DAO.loadBikes();
+        bikeDao = new FileBikeDao(Path.of("src/main/resources/test/wrongBikeFormat.txt"));
+        bikeDao.loadBikes();
     }
 }

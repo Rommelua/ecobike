@@ -14,37 +14,37 @@ public class FindCommand implements Command {
     public void execute() {
         SearchParameterContainer paramContainer = new SearchParameterContainer();
         while (true) {
-            COMMUNICATOR.writeMessage("Select bike type you wont to find");
-            COMMUNICATOR.writeMessage("\t 1 - " + BikeType.FOLDING_BIKE);
-            COMMUNICATOR.writeMessage("\t 2 - " + BikeType.E_BIKE);
-            COMMUNICATOR.writeMessage("\t 3 - " + BikeType.SPEEDELEC);
+            communicator.writeMessage("Select bike type you wont to find");
+            communicator.writeMessage("\t 1 - " + BikeType.FOLDING_BIKE);
+            communicator.writeMessage("\t 2 - " + BikeType.E_BIKE);
+            communicator.writeMessage("\t 3 - " + BikeType.SPEEDELEC);
             int bikeTypeNumber;
-            if ((bikeTypeNumber = COMMUNICATOR.readInt()) >= 1 && bikeTypeNumber <= 3) {
+            if ((bikeTypeNumber = communicator.readInt()) >= 1 && bikeTypeNumber <= 3) {
                 paramContainer.setBikeType(BikeType.values()[bikeTypeNumber - 1]);
                 break;
             }
-            COMMUNICATOR.writeMessage("=== Wrong entry ===");
-            COMMUNICATOR.writeMessage("");
+            communicator.writeMessage("=== Wrong entry ===");
+            communicator.writeMessage("");
         }
 
-        COMMUNICATOR.writeMessage("Enter bike brand:");
+        communicator.writeMessage("Enter bike brand:");
         String brand;
-        while ((brand = COMMUNICATOR.readString()).isEmpty()) {
-            COMMUNICATOR.writeMessage("Can't skip. Enter bike brand:");
+        while ((brand = communicator.readString()).isEmpty()) {
+            communicator.writeMessage("Can't skip. Enter bike brand:");
         }
         paramContainer.setBrand(brand);
 
-        COMMUNICATOR.writeMessage("You may choose next parameters "
-                + "(for skipping parameter press \"Enter\"):");
-        COMMUNICATOR.writeMessage("Enter min weight:");
-        paramContainer.setMinWeight(COMMUNICATOR.readInt());
+        communicator.writeMessage("You may choose next parameters "
+                                  + "(for skipping parameter press \"Enter\"):");
+        communicator.writeMessage("Enter min weight:");
+        paramContainer.setMinWeight(communicator.readInt());
 
-        COMMUNICATOR.writeMessage("Enter max weight:");
-        paramContainer.setMaxWeight(COMMUNICATOR.readInt());
+        communicator.writeMessage("Enter max weight:");
+        paramContainer.setMaxWeight(communicator.readInt());
 
-        COMMUNICATOR.writeMessage("Enter lights presence (Type 1 for TRUE or 2 for FALSE):");
+        communicator.writeMessage("Enter lights presence (Type 1 for TRUE or 2 for FALSE):");
         while (true) {
-            String entry = COMMUNICATOR.readString();
+            String entry = communicator.readString();
             if (entry.isEmpty()) {
                 break;
             }
@@ -58,49 +58,49 @@ public class FindCommand implements Command {
                 paramContainer.setLightsOptionEntered(true);
                 break;
             }
-            COMMUNICATOR.writeMessage("Wrong entry. "
-                    + "Type 1 for TRUE, 2 for FALSE or \"Enter\" for skipping");
+            communicator.writeMessage("Wrong entry. "
+                                      + "Type 1 for TRUE, 2 for FALSE or \"Enter\" for skipping");
         }
 
-        COMMUNICATOR.writeMessage("Enter color:");
-        paramContainer.setColor(COMMUNICATOR.readString());
+        communicator.writeMessage("Enter color:");
+        paramContainer.setColor(communicator.readString());
 
-        COMMUNICATOR.writeMessage("Enter min price:");
-        paramContainer.setMinPrice(COMMUNICATOR.readInt());
+        communicator.writeMessage("Enter min price:");
+        paramContainer.setMinPrice(communicator.readInt());
 
-        COMMUNICATOR.writeMessage("Enter max price:");
-        paramContainer.setMaxPrice(COMMUNICATOR.readInt());
+        communicator.writeMessage("Enter max price:");
+        paramContainer.setMaxPrice(communicator.readInt());
 
         if (paramContainer.getBikeType() == BikeType.FOLDING_BIKE) {
-            COMMUNICATOR.writeMessage("Enter min wheel size:");
-            paramContainer.setMinWheelSize(COMMUNICATOR.readInt());
-            COMMUNICATOR.writeMessage("Enter max wheel size:");
-            paramContainer.setMaxWheelSize(COMMUNICATOR.readInt());
-            COMMUNICATOR.writeMessage("Enter min number of gears:");
-            paramContainer.setMinNumberOfGears(COMMUNICATOR.readInt());
-            COMMUNICATOR.writeMessage("Enter max number of gears:");
-            paramContainer.setMaxNumberOfGears(COMMUNICATOR.readInt());
+            communicator.writeMessage("Enter min wheel size:");
+            paramContainer.setMinWheelSize(communicator.readInt());
+            communicator.writeMessage("Enter max wheel size:");
+            paramContainer.setMaxWheelSize(communicator.readInt());
+            communicator.writeMessage("Enter min number of gears:");
+            paramContainer.setMinNumberOfGears(communicator.readInt());
+            communicator.writeMessage("Enter max number of gears:");
+            paramContainer.setMaxNumberOfGears(communicator.readInt());
         }
 
         if (paramContainer.getBikeType() == BikeType.E_BIKE
                 || paramContainer.getBikeType() == BikeType.SPEEDELEC) {
-            COMMUNICATOR.writeMessage("Enter minimum max bike speed:");
-            paramContainer.setMinMaxBikeSpeed(COMMUNICATOR.readInt());
-            COMMUNICATOR.writeMessage("Enter maximum max bike speed:");
-            paramContainer.setMaxMaxBikeSpeed(COMMUNICATOR.readInt());
-            COMMUNICATOR.writeMessage("Enter min battery capacity:");
-            paramContainer.setMinBatteryCapacity(COMMUNICATOR.readInt());
-            COMMUNICATOR.writeMessage("Enter max battery capacity:");
-            paramContainer.setMaxBatteryCapacity(COMMUNICATOR.readInt());
+            communicator.writeMessage("Enter minimum max bike speed:");
+            paramContainer.setMinMaxBikeSpeed(communicator.readInt());
+            communicator.writeMessage("Enter maximum max bike speed:");
+            paramContainer.setMaxMaxBikeSpeed(communicator.readInt());
+            communicator.writeMessage("Enter min battery capacity:");
+            paramContainer.setMinBatteryCapacity(communicator.readInt());
+            communicator.writeMessage("Enter max battery capacity:");
+            paramContainer.setMaxBatteryCapacity(communicator.readInt());
         }
 
-        List<Bike> bikes = DATA_HOLDER.findBikesByParameter(paramContainer);
+        List<Bike> bikes = dataHolder.findBikesByParameter(paramContainer);
         if (bikes.isEmpty()) {
-            COMMUNICATOR.writeMessage("No bikes matches your query.");
+            communicator.writeMessage("No bikes matches your query.");
         } else {
-            COMMUNICATOR.writeMessage(bikes.size() + " bikes matches your query:");
-            COMMUNICATOR.writeMessage("");
-            COMMUNICATOR.printBikes(bikes);
+            communicator.writeMessage(bikes.size() + " bikes matches your query:");
+            communicator.writeMessage("");
+            communicator.printBikes(bikes);
         }
     }
 }

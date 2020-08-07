@@ -7,6 +7,6 @@ public class ShowCommand implements Command {
 
     @Override
     public void execute() {
-        COMMUNICATOR.printBikes(DATA_HOLDER.getUnmodifiableBikeList());
+        communicator.printBikes(dataHolder.getUnmodifiableBikeList());
     }
 }

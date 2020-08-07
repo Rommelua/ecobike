@@ -17,7 +17,7 @@ import java.util.stream.Stream;
  * loaded from data source.
  */
 public class DataHolder {
-    private static final DataHolder INSTANCE = new DataHolder();
+    private static final DataHolder instance = new DataHolder();
     /**
      * Bikes container.
      */
@@ -39,7 +39,7 @@ public class DataHolder {
     }
 
     public static DataHolder getInstance() {
-        return INSTANCE;
+        return instance;
     }
 
     /**
@@ -103,7 +103,7 @@ public class DataHolder {
         try {
             countDownLatch.await();
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
         synchronized (this) {
             Stream<Bike> bikeStream = bikes.parallelStream()

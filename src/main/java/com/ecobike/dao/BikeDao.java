@@ -9,14 +9,6 @@ import com.ecobike.exception.IllegalDataSourceException;
 public interface BikeDao {
 
     /**
-     * Method sets data source.
-     *
-     * @param address string with parameters needed
-     *                for connection to data source.
-     */
-    void setSource(String address);
-
-    /**
      * Method reads data from data source and
      * loads parsed Bike objects to DataHolder.
      *

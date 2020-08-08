@@ -5,6 +5,9 @@ import com.ecobike.DataHolder;
 import com.ecobike.EcoBikeApplication;
 import com.ecobike.exception.IllegalDataSourceException;
 import com.ecobike.model.Bike;
+import com.ecobike.model.BikeType;
+import com.ecobike.parser.BikeParser;
+import com.ecobike.parser.FileBikeParser;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -22,7 +25,6 @@ public class FileBikeDao implements BikeDao {
 
     private static final DataHolder dataHolder = DataHolder.getInstance();
     private static final Communicator communicator = EcoBikeApplication.communicator;
-    private static final FileBikeParser parser = new FileBikeParser();
     /**
      * Path to data file.
      */
@@ -49,8 +51,10 @@ public class FileBikeDao implements BikeDao {
         List<String> wrongLinesInfo = new ArrayList<>();
         for (int i = 0; i < lines.size(); i++) {
             try {
-                bikes.add(parser.parseBike(lines.get(i)));
-            } catch (IllegalArgumentException e) {
+                String line = lines.get(i);
+                BikeParser parser = FileBikeParser.getBikeParser(line);
+                bikes.add(parser.parseBike(line));
+            } catch (RuntimeException e) {
                 wrongLinesInfo.add("Line No. " + (i + 1) + " has wrong format");
             }
         }

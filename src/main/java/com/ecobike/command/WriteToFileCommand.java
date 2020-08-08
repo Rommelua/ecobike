@@ -19,6 +19,5 @@ public class WriteToFileCommand implements Command {
                 communicator.writeMessage("Data has been written successfully.");
             }
         }
-
     }
 }

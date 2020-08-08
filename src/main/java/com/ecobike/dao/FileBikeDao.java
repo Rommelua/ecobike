@@ -1,18 +1,15 @@
 package com.ecobike.dao;
 
 import com.ecobike.Communicator;
-import com.ecobike.DataHolder;
 import com.ecobike.EcoBikeApplication;
 import com.ecobike.exception.IllegalDataSourceException;
 import com.ecobike.model.Bike;
-import com.ecobike.model.BikeType;
 import com.ecobike.parser.BikeParser;
 import com.ecobike.parser.FileBikeParser;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,25 +20,24 @@ import java.util.stream.Collectors;
  */
 public class FileBikeDao implements BikeDao {
 
-    private static final DataHolder dataHolder = DataHolder.getInstance();
     private static final Communicator communicator = EcoBikeApplication.communicator;
     /**
      * Path to data file.
      */
-    private Path file;
+    private final Path file;
 
     public FileBikeDao(Path file) {
         this.file = file;
     }
 
     /**
-     * Method reads text from file and loads parsed Bike objects to DataHolder.
+     * Method reads data from data source.
      *
      * @throws IllegalDataSourceException if no one Bike object parsed from file.
      */
     @Override
-    public void loadBikes() throws IllegalDataSourceException {
-        List<String> lines = Collections.emptyList();
+    public List<Bike> readBikes() throws IllegalDataSourceException {
+        List<String> lines;
         try {
             lines = Files.readAllLines(file);
         } catch (IOException e) {
@@ -62,8 +58,8 @@ public class FileBikeDao implements BikeDao {
             throw new IllegalDataSourceException();
         }
         wrongLinesInfo.forEach(communicator::writeMessage);
-        dataHolder.init(bikes);
         communicator.writeMessage(bikes.size() + " bike items has been read from the file");
+        return bikes;
     }
 
     /**
@@ -71,8 +67,8 @@ public class FileBikeDao implements BikeDao {
      * Old data in file will be replaced with new one.
      */
     @Override
-    public void saveBikes() {
-        List<String> dataToWrite = dataHolder.getUnmodifiableBikeList().stream()
+    public void saveBikes(List<Bike> bikes) {
+        List<String> dataToWrite = bikes.stream()
                 .map(Bike::toFileWriterString)
                 .collect(Collectors.toList());
         try {

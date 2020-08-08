@@ -51,7 +51,8 @@ public class EcoBikeApplication {
             } while (!Files.isRegularFile(bikeDataFile));
             bikeDao = new FileBikeDao(bikeDataFile);
             try {
-                bikeDao.loadBikes();
+                DataHolder dataHolder = DataHolder.getInstance(bikeDao);
+                dataHolder.init();
                 isFileParsed = true;
             } catch (IllegalDataSourceException e) {
                 communicator.writeMessage("File has wrong format or empty");

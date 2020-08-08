@@ -1,11 +1,12 @@
 package com.ecobike;
 
+import com.ecobike.dao.BikeDao;
+import com.ecobike.exception.IllegalDataSourceException;
 import com.ecobike.model.AbstractElectroBike;
 import com.ecobike.model.Bike;
 import com.ecobike.model.BikeType;
 import com.ecobike.model.FoldingBike;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
@@ -23,6 +24,7 @@ public class DataHolder {
      */
     private final List<Bike> bikes = new ArrayList<>();
 
+    private BikeDao bikeDao;
     /**
      * We need this Latch to be sure that our new Thread in addBikes() method,
      * that sorts Bike storage, will take monitor before any other thread.
@@ -38,18 +40,17 @@ public class DataHolder {
     private DataHolder() {
     }
 
-    public static DataHolder getInstance() {
+    public static DataHolder getInstance(BikeDao bikeDao) {
+        instance.bikeDao = bikeDao;
         return instance;
     }
 
     /**
-     * Method adds Bikes from collection to Bikes container.
-     *
-     * @param bikesToAdd collection with Bikes for adding.
+     * Method adds Bikes from data source to Bikes container.
      */
-    public synchronized void init(Collection<Bike> bikesToAdd) {
+    public synchronized void init() throws IllegalDataSourceException {
         bikes.clear();
-        bikes.addAll(bikesToAdd);
+        bikes.addAll(bikeDao.readBikes());
         countDownLatch = new CountDownLatch(1);
         new Thread(() -> {
             sort();
@@ -107,7 +108,8 @@ public class DataHolder {
         }
         synchronized (this) {
             Stream<Bike> bikeStream = bikes.parallelStream()
-                    .filter(bike -> bike.getBikeType() == parameters.getBikeType()
+                    .filter(bike ->
+                            bike.getBikeType() == parameters.getBikeType()
                             && bike.getBrand().equalsIgnoreCase(parameters.getBrand())
                             && bike.getWeight() >= parameters.getMinWeight()
                             && (parameters.getMaxWeight() == 0
@@ -122,7 +124,8 @@ public class DataHolder {
 
             if (parameters.getBikeType() == BikeType.FOLDING_BIKE) {
                 return bikeStream.map(bike -> (FoldingBike) bike)
-                        .filter(bike -> bike.getWheelSize() >= parameters.getMinWheelSize()
+                        .filter(bike ->
+                                bike.getWheelSize() >= parameters.getMinWheelSize()
                                 && (parameters.getMaxWheelSize() == 0
                                     || bike.getWheelSize() <= parameters.getMaxWheelSize())
                                 && bike.getNumberOfGears() >= parameters.getMinNumberOfGears()
@@ -131,7 +134,8 @@ public class DataHolder {
                         .collect(Collectors.toList());
             }
             return bikeStream.map(bike -> (AbstractElectroBike) bike)
-                    .filter(bike -> bike.getMaxSpeed() >= parameters.getMinMaxBikeSpeed()
+                    .filter(bike ->
+                            bike.getMaxSpeed() >= parameters.getMinMaxBikeSpeed()
                             && (parameters.getMaxMaxBikeSpeed() == 0
                                 || bike.getMaxSpeed() <= parameters.getMaxMaxBikeSpeed())
                             && bike.getBatteryCapacity() >= parameters.getMinBatteryCapacity()

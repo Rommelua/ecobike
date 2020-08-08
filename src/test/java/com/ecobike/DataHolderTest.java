@@ -21,7 +21,7 @@ import static org.junit.Assert.assertTrue;
 public class DataHolderTest {
     private static final BikeDao BIKE_DAO
             = new FileBikeDao(Path.of("src/main/resources/test/fileWithFiveTrueBikes.txt"));
-    private static final DataHolder DATA_HOLDER = DataHolder.getInstance();
+    private static final DataHolder DATA_HOLDER = DataHolder.getInstance(BIKE_DAO);
     private static final int START_EXPECTED_LIST_SIZE = 5;
     private static final int ADDBIKES_EXPECTED_LIST_SIZE = 2;
     private static final int ADDBIKE_EXPECTED_LIST_SIZE = 7;
@@ -47,24 +47,13 @@ public class DataHolderTest {
 
     @Before
     public void before() throws IllegalDataSourceException {
-        BIKE_DAO.loadBikes();
+        DATA_HOLDER.init();
     }
 
     @Test
     public void getUnmodifiableBikeList() {
         List<Bike> loadedBikes = DATA_HOLDER.getUnmodifiableBikeList();
         assertEquals(START_EXPECTED_LIST_SIZE, loadedBikes.size());
-    }
-
-    @Test
-    public void addBikes() {
-        List<Bike> bikesToAdd = Arrays.asList(FIRST_BIKE_TO_ADD, LAST_BIKE_TO_ADD);
-        DATA_HOLDER.init(bikesToAdd);
-        List<Bike> loadedBikes = DATA_HOLDER.getUnmodifiableBikeList();
-
-        assertEquals(ADDBIKES_EXPECTED_LIST_SIZE, loadedBikes.size());
-        assertEquals(FIRST_BIKE_TO_ADD, loadedBikes.get(0));
-        assertEquals(LAST_BIKE_TO_ADD, loadedBikes.get(1));
     }
 
     @Test

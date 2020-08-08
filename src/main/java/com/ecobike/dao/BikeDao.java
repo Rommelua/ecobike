@@ -1,6 +1,8 @@
 package com.ecobike.dao;
 
 import com.ecobike.exception.IllegalDataSourceException;
+import com.ecobike.model.Bike;
+import java.util.List;
 
 /**
  * Interface should be implemented by class
@@ -9,16 +11,15 @@ import com.ecobike.exception.IllegalDataSourceException;
 public interface BikeDao {
 
     /**
-     * Method reads data from data source and
-     * loads parsed Bike objects to DataHolder.
+     * Method reads data from data source.
      *
      * @throws IllegalDataSourceException if no one Bike object parsed from file.
      */
-    void loadBikes() throws IllegalDataSourceException;
+    List<Bike> readBikes() throws IllegalDataSourceException;
 
     /**
      * Method writes to data source Bike objects.
      * Old data must be replaced with new one.
      */
-    void saveBikes();
+    void saveBikes(List<Bike> bikes);
 }

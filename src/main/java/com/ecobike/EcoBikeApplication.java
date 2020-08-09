@@ -13,11 +13,11 @@ public class EcoBikeApplication {
     /**
      * Communicator for communication with user.
      */
-    public static final Communicator communicator = new ConsoleCommunicator();
+    private static final Communicator communicator = new ConsoleCommunicator();
     /**
      * Object for loading data from and writing data to file.
      */
-    public static BikeDao bikeDao;
+    private static BikeDao bikeDao;
 
     /**
      * Main method of the application.
@@ -39,6 +39,14 @@ public class EcoBikeApplication {
                 communicator.writeMessage("Error occurred. Repeat action.");
             }
         }
+    }
+
+    public static Communicator getCommunicator() {
+        return communicator;
+    }
+
+    public static BikeDao getBikeDao() {
+        return bikeDao;
     }
 
     private static void initFileBikeDao() {

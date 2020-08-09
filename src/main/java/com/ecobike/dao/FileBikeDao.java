@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
  */
 public class FileBikeDao implements BikeDao {
 
-    private static final Communicator communicator = EcoBikeApplication.communicator;
+    private static final Communicator communicator = EcoBikeApplication.getCommunicator();
     /**
      * Path to data file.
      */

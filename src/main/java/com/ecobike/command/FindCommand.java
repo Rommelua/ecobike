@@ -16,11 +16,12 @@ public class FindCommand implements Command {
         while (true) {
             communicator.writeMessage("Select bike type you wont to find");
             int numberOfBikeTypes = BikeType.values().length;
-            for (int i = 1; i <= numberOfBikeTypes ; i++) {
+            for (int i = 1; i <= numberOfBikeTypes; i++) {
                 communicator.writeMessage("\t " + i + " - " + BikeType.values()[i - 1]);
             }
             int bikeTypeNumber;
-            if ((bikeTypeNumber = communicator.readInt()) >= 1 && bikeTypeNumber <= numberOfBikeTypes) {
+            if ((bikeTypeNumber = communicator.readInt()) >= 1
+                    && bikeTypeNumber <= numberOfBikeTypes) {
                 paramContainer.setBikeType(BikeType.values()[bikeTypeNumber - 1]);
                 break;
             }

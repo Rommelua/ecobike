@@ -1,13 +1,12 @@
 package com.ecobike.parser;
 
-import com.ecobike.model.Bike;
 import com.ecobike.model.BikeType;
 import com.ecobike.model.SpeedelecBike;
 
-public class SpedelecFileParser extends FileBikeParser {
+public class SpedelecFileParser extends FileBikeParser<SpeedelecBike> {
 
     @Override
-    public Bike parseBike(String line) {
+    public SpeedelecBike parseBike(String line) {
         String[] parameters = line.replace(BikeType.SPEEDELEC + " ", "").split("; ");
         checkParametersForEmpties(parameters);
         return new SpeedelecBike(parameters[0], Integer.parseInt(parameters[1]),

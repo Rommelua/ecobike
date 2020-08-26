@@ -73,5 +73,4 @@ public abstract class AbstractElectroBike extends Bike {
     public int getBatteryCapacity() {
         return batteryCapacity;
     }
-
 }

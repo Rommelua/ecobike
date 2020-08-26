@@ -53,7 +53,7 @@ public interface Communicator {
      *
      * @param bikes list of bikes for printing
      */
-    void printBikes(List<Bike> bikes);
+    void printBikes(List<? extends Bike> bikes);
 
     /**
      * Ask user to confirm operation.

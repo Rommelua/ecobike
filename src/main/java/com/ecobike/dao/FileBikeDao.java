@@ -74,7 +74,7 @@ public class FileBikeDao implements BikeDao {
         try {
             Files.write(file, dataToWrite);
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 }

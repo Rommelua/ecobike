@@ -1,9 +1,10 @@
 package com.ecobike.parser;
 
+import com.ecobike.model.Bike;
 import com.ecobike.model.BikeType;
 import java.util.stream.Stream;
 
-public abstract class FileBikeParser implements BikeParser {
+public abstract class FileBikeParser<T extends Bike> implements BikeParser<T> {
 
     public static BikeParser getBikeParser(String line) {
         if (line.startsWith(BikeType.E_BIKE.toString())) {

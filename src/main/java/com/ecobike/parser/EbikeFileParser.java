@@ -1,13 +1,12 @@
 package com.ecobike.parser;
 
-import com.ecobike.model.Bike;
 import com.ecobike.model.BikeType;
 import com.ecobike.model.EBike;
 
-public class EbikeFileParser extends FileBikeParser {
+public class EbikeFileParser extends FileBikeParser<EBike> {
 
     @Override
-    public Bike parseBike(String line) {
+    public EBike parseBike(String line) {
         String[] parameters = line.replace(BikeType.E_BIKE + " ", "").split("; ");
         checkParametersForEmpties(parameters);
         return new EBike(parameters[0], Integer.parseInt(parameters[1]),

@@ -1,0 +1,10 @@
+SPEEDELEC EcoRide; 50; 8400; false; 8600; brown; 1609
+FOLDING BIKE BMW; 20; 7; 14400; false; lemon; 1085
+E-BIKE Ecofect; 30; 19200; true; 15000; lemon; 2919
+E-BIKE Gazelle; 25; 22200; true; 26000; silver; 1735
+WRONG Speedway; 25; 6800; false; 15200; blue; 915
+E-BIKE Ferrari; 55; WRONG; false; 28000; olive; 3055
+FOLDING BIKE BMW; 16; 9; 11000; WRONG; emerald; 1459
+FOLDING BIKE BMW; 16; 9; ; true; emerald; 1459
+FOLDING BIKE BMW; 16; 9; 11000; true; ; 1459
+FOLDING BIKE BMW; 16; 9; 11000; true; emerald; 1459
